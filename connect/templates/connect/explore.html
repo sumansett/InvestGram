@@ -1,0 +1,26 @@
+{% extends 'connect/base.html' %}
+{% block title %}Explore | InvestGram{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Explore Network</h1>
+    <p>Find investors, founders, industries, cities, and companies.</p>
+</section>
+
+<form class="search-glass" method="get">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search AI, fintech, Kolkata, investor...">
+    <select name="role">
+        <option value="">All Roles</option>
+        <option value="investor" {% if role == 'investor' %}selected{% endif %}>Investors</option>
+        <option value="entrepreneur" {% if role == 'entrepreneur' %}selected{% endif %}>Entrepreneurs</option>
+    </select>
+    <button class="btn primary">Search</button>
+</form>
+
+<div class="grid-cards">
+{% for profile in profiles %}
+    {% include 'connect/profile_card.html' %}
+{% empty %}
+    <p class="empty">No matching profiles found.</p>
+{% endfor %}
+</div>
+{% endblock %}

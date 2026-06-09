@@ -1,0 +1,173 @@
+{% extends 'connect/base.html' %}
+
+{% block title %}InvestGram | Investor & Entrepreneur Network{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div>
+        <span class="eyebrow">🚀 India's Startup Networking Platform</span>
+
+        <h1>
+            Connect Investors
+            <br>
+            & Entrepreneurs
+        </h1>
+
+        <p>
+            Discover startup founders, connect with investors, showcase
+            funding opportunities, and build meaningful business relationships
+            through InvestGram.
+        </p>
+
+        <div class="hero-actions">
+            {% if user.is_authenticated %}
+                <a href="{% url 'explore' %}" class="btn primary">
+                    Explore Network
+                </a>
+                <a href="{% url 'dashboard' %}" class="btn secondary">
+                    Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}" class="btn primary">
+                    Join Free
+                </a>
+                <a href="{% url 'login' %}" class="btn secondary">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="stats">
+            <div>
+                <strong>{{ investors|length }}</strong>
+                <span>Featured Investors</span>
+            </div>
+
+            <div>
+                <strong>{{ startups|length }}</strong>
+                <span>Featured Startups</span>
+            </div>
+
+            <div>
+                <strong>{{ posts|length }}</strong>
+                <span>Latest Pitches</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="phone-preview">
+        <div class="story-row">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div class="mini-card">
+            <div class="avatar gradient"></div>
+            <div>
+                <strong>Investor Match</strong>
+                <p>AI & FinTech Opportunities</p>
+            </div>
+        </div>
+
+        <div class="pitch-box">
+            <div class="score">98%</div>
+            <p>Networking Match Score</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-head">
+        <h2>Featured Investors</h2>
+        <a href="{% url 'explore' %}?role=investor">View All</a>
+    </div>
+
+    <div class="grid-cards">
+        {% for profile in investors %}
+            {% include 'connect/profile_card.html' %}
+        {% empty %}
+            <p class="empty">No investors available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <div class="section-head">
+        <h2>Featured Startups</h2>
+        <a href="{% url 'explore' %}?role=entrepreneur">View All</a>
+    </div>
+
+    <div class="grid-cards">
+        {% for profile in startups %}
+            {% include 'connect/profile_card.html' %}
+        {% empty %}
+            <p class="empty">No startup founders available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <div class="section-head">
+        <h2>Latest Startup Pitches</h2>
+    </div>
+
+    <div class="post-grid">
+        {% for post in posts %}
+        <article class="post-card">
+            <h3>{{ post.title }}</h3>
+
+            <p style="margin:15px 0;">
+                {{ post.content|truncatewords:25 }}
+            </p>
+
+            <div class="badge-row">
+                {% if post.category %}
+                    <span>{{ post.category }}</span>
+                {% endif %}
+
+                {% if post.funding_goal %}
+                    <span>{{ post.funding_goal }}</span>
+                {% endif %}
+            </div>
+
+            <div style="margin-top:20px;">
+                <small>
+                    By {{ post.author.username }}
+                </small>
+            </div>
+        </article>
+        {% empty %}
+        <div class="glass-box" style="padding:30px;">
+            <p>No startup pitches available yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section style="margin:80px 0;">
+    <div class="glass-box" style="padding:50px;text-align:center;border-radius:30px;">
+        <h2 style="margin-bottom:15px;">
+            Ready to Build Valuable Connections?
+        </h2>
+
+        <p style="margin-bottom:25px;">
+            Join founders, investors, and innovators growing together on
+            InvestGram.
+        </p>
+
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="btn primary">
+                Create Your Account
+            </a>
+        {% else %}
+            <a href="{% url 'explore' %}" class="btn primary">
+                Start Exploring
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

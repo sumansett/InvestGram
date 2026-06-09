@@ -1,0 +1,29 @@
+<article class="profile-card">
+    <div class="shine"></div>
+    <div class="card-top">
+        {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" class="avatar-img">
+        {% else %}
+            <div class="avatar gradient"></div>
+        {% endif %}
+        <div>
+            <h3>{{ profile.full_name }}</h3>
+            <p>{{ profile.headline|default:profile.role|title }}</p>
+        </div>
+    </div>
+    <div class="badge-row">
+        <span>{{ profile.industry }}</span>
+        {% if profile.verified %}<span>Verified</span>{% endif %}
+        {% if profile.premium %}<span>Premium</span>{% endif %}
+    </div>
+    <p class="bio">{{ profile.bio|truncatewords:18 }}</p>
+    <div class="card-actions">
+        <a class="btn small primary" href="{% url 'profile_detail' profile.user.id %}">View</a>
+        {% if user.is_authenticated and user != profile.user %}
+        <form method="post" action="{% url 'send_connection' profile.user.id %}">
+            {% csrf_token %}
+            <button class="btn small secondary">Connect</button>
+        </form>
+        {% endif %}
+    </div>
+</article>

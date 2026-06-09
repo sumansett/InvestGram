@@ -1,0 +1,68 @@
+{% extends 'connect/base.html' %}
+{% block title %}{{ profile.full_name }} | InvestGram{% endblock %}
+{% block content %}
+<section class="profile-hero glass-box">
+    <div class="avatar huge gradient"></div>
+    <div>
+        <h1>{{ profile.full_name }}</h1>
+        <p>{{ profile.headline }}</p>
+        <div class="badge-row">
+            <span>{{ profile.role|title }}</span>
+            <span>{{ profile.industry }}</span>
+            <span>{{ profile.city }}</span>
+        </div>
+    </div>
+    <div class="profile-actions">
+        {% if user.is_authenticated and user != profile.user %}
+            <form method="post" action="{% url 'send_connection' profile.user.id %}">
+                {% csrf_token %}
+                <button class="btn primary">Connect</button>
+            </form>
+            <a class="btn secondary" href="{% url 'chat' profile.user.id %}">Message</a>
+            <a class="btn secondary" href="{% url 'reveal_contact' profile.user.id %}">Reveal Contact</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="two-col">
+    <div class="glass-box">
+        <h2>About</h2>
+        <p>{{ profile.bio }}</p>
+        <div class="info-list">
+            <p><strong>Company:</strong> {{ profile.company_name|default:'Not added' }}</p>
+            <p><strong>Funding Need:</strong> {{ profile.funding_need|default:'Not added' }}</p>
+            <p><strong>Ticket Size:</strong> {{ profile.ticket_size|default:'Not added' }}</p>
+            {% if revealed %}
+                <p><strong>Email:</strong> {{ profile.user.email }}</p>
+            {% else %}
+                <p><strong>Email:</strong> Hidden until contact reveal</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="glass-box">
+        <h2>Platform Proof</h2>
+        <p>This page supports connection tracking, message history, and contact reveal logging.</p>
+        {% if connection %}
+            <p><strong>Connection Status:</strong> {{ connection.status|title }}</p>
+        {% else %}
+            <p>No connection recorded yet.</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="glass-box">
+    <h2>Pitch Posts</h2>
+    {% for post in posts %}
+        <div class="list-item">
+            <div>
+                <strong>{{ post.title }}</strong>
+                <p>{{ post.content }}</p>
+            </div>
+            <span>{{ post.funding_goal }}</span>
+        </div>
+    {% empty %}
+        <p class="empty">No posts yet.</p>
+    {% endfor %}
+</section>
+{% endblock %}

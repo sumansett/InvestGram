@@ -1,0 +1,15 @@
+{% extends 'connect/base.html' %}
+{% block title %}Create Pitch | InvestGram{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <h1>Create Pitch Post</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input name="title" placeholder="Pitch title" required>
+        <input name="category" placeholder="Category e.g. AI, FinTech">
+        <input name="funding_goal" placeholder="Funding goal e.g. ₹25L">
+        <textarea name="content" placeholder="Describe your startup idea..." required></textarea>
+        <button class="btn primary wide">Publish Pitch</button>
+    </form>
+</section>
+{% endblock %}

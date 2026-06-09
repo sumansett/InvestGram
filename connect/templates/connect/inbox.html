@@ -1,0 +1,20 @@
+{% extends 'connect/base.html' %}
+{% block title %}Messages | InvestGram{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Messages</h1>
+    <p>Keep first communication inside the platform for proof.</p>
+</section>
+
+<div class="glass-box">
+{% for contact in contacts %}
+    <a class="chat-link" href="{% url 'chat' contact.id %}">
+        <div class="avatar small gradient"></div>
+        <strong>{{ contact.username }}</strong>
+        <span>Open Chat</span>
+    </a>
+{% empty %}
+    <p class="empty">No conversations yet.</p>
+{% endfor %}
+</div>
+{% endblock %}

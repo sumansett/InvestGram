@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}InvestGram{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'connect/css/style.css' %}">
+</head>
+<body>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+
+    <nav class="glass-nav">
+        <a href="{% url 'home' %}" class="brand">Invest<span>Gram</span></a>
+        <div class="nav-links">
+            <a href="{% url 'explore' %}">Explore</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'connections' %}">Connections</a>
+                <a href="{% url 'inbox' %}">Messages</a>
+                <a href="{% url 'logout' %}" class="pill danger">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}" class="pill">Join Now</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% if messages %}
+    <div class="toast-wrap">
+        {% for message in messages %}
+        <div class="toast {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 InvestGram — Investor & Entrepreneur Network</p>
+    </footer>
+</body>
+</html>

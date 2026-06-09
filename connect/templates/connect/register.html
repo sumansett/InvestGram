@@ -1,0 +1,27 @@
+{% extends 'connect/base.html' %}
+{% block title %}Register | InvestGram{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <h1>Create Account</h1>
+    <p>Join as Investor or Entrepreneur.</p>
+    <form method="post">
+        {% csrf_token %}
+        <input name="full_name" placeholder="Full name" required>
+        <input name="username" placeholder="Username" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <select name="role" required>
+            <option value="entrepreneur">Entrepreneur</option>
+            <option value="investor">Investor</option>
+        </select>
+        <input name="headline" placeholder="Headline e.g. Angel Investor / AI Founder">
+        <input name="company_name" placeholder="Company name">
+        <input name="industry" placeholder="Industry" required>
+        <input name="city" placeholder="City">
+        <input name="funding_need" placeholder="Funding need / investment focus">
+        <input name="ticket_size" placeholder="Ticket size">
+        <textarea name="bio" placeholder="Short bio" required></textarea>
+        <button class="btn primary wide">Create Account</button>
+    </form>
+</section>
+{% endblock %}

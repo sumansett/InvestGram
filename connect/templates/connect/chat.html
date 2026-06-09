@@ -1,0 +1,23 @@
+{% extends 'connect/base.html' %}
+{% block title %}Chat | InvestGram{% endblock %}
+{% block content %}
+<section class="chat-shell glass-box">
+    <h1>Chat with {{ other.username }}</h1>
+    <div class="chat-window">
+        {% for m in chat_messages %}
+            <div class="bubble {% if m.sender == user %}mine{% else %}theirs{% endif %}">
+                <p>{{ m.body }}</p>
+                <span>{{ m.created_at|date:'d M, h:i A' }}</span>
+            </div>
+        {% empty %}
+            <p class="empty">No messages yet. Start the conversation.</p>
+        {% endfor %}
+    </div>
+
+    <form method="post" class="chat-form">
+        {% csrf_token %}
+        <input type="text" name="body" placeholder="Write a message..." required>
+        <button class="btn primary">Send</button>
+    </form>
+</section>
+{% endblock %}

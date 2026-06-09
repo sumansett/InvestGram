@@ -1,0 +1,44 @@
+{% extends 'connect/base.html' %}
+{% block title %}Connections | InvestGram{% endblock %}
+{% block content %}
+<section class="page-header">
+    <h1>Connection Requests</h1>
+    <p>Accept, reject, and track investor-startup introductions.</p>
+</section>
+
+<div class="two-col">
+    <div class="glass-box">
+        <h2>Received</h2>
+        {% for c in received %}
+            <div class="list-item">
+                <div>
+                    <strong>{{ c.sender.username }}</strong>
+                    <p>Status: {{ c.status }}</p>
+                </div>
+                {% if c.status == 'pending' %}
+                <div>
+                    <a class="btn small primary" href="{% url 'respond_connection' c.id 'accept' %}">Accept</a>
+                    <a class="btn small danger" href="{% url 'respond_connection' c.id 'reject' %}">Reject</a>
+                </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="empty">No received requests.</p>
+        {% endfor %}
+    </div>
+
+    <div class="glass-box">
+        <h2>Sent</h2>
+        {% for c in sent %}
+            <div class="list-item">
+                <div>
+                    <strong>{{ c.receiver.username }}</strong>
+                    <p>Status: {{ c.status }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p class="empty">No sent requests.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

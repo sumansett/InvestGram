@@ -1,0 +1,38 @@
+{% extends 'connect/base.html' %}
+{% block title %}Dashboard | InvestGram{% endblock %}
+{% block content %}
+<section class="dashboard-layout">
+    <aside class="profile-panel glass-box">
+        <div class="avatar big gradient"></div>
+        <h2>{{ profile.full_name|default:user.username }}</h2>
+        <p>{{ profile.headline|default:'Complete your profile' }}</p>
+        <div class="badge-row center">
+            {% if profile %}<span>{{ profile.role|title }}</span><span>{{ profile.industry }}</span>{% endif %}
+        </div>
+        <a href="{% url 'create_post' %}" class="btn primary wide">Create Pitch Post</a>
+    </aside>
+
+    <section class="dash-main">
+        <div class="metric-grid">
+            <div class="metric glass-box"><strong>{{ pending }}</strong><span>Pending Requests</span></div>
+            <div class="metric glass-box"><strong>{{ accepted }}</strong><span>Accepted Connections</span></div>
+            <div class="metric glass-box"><strong>{{ unread }}</strong><span>Unread Messages</span></div>
+        </div>
+
+        <div class="glass-box">
+            <h2>Your Pitch Posts</h2>
+            {% for post in posts %}
+                <div class="list-item">
+                    <div>
+                        <strong>{{ post.title }}</strong>
+                        <p>{{ post.content|truncatewords:18 }}</p>
+                    </div>
+                    <span>{{ post.category }}</span>
+                </div>
+            {% empty %}
+                <p class="empty">No pitch posts yet. Create one to attract investors.</p>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}

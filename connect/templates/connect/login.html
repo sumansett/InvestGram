@@ -1,0 +1,14 @@
+{% extends 'connect/base.html' %}
+{% block title %}Login | InvestGram{% endblock %}
+{% block content %}
+<section class="auth-card">
+    <h1>Welcome Back</h1>
+    <p>Login to continue networking.</p>
+    <form method="post">
+        {% csrf_token %}
+        <input name="username" placeholder="Username" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <button class="btn primary wide">Login</button>
+    </form>
+</section>
+{% endblock %}
